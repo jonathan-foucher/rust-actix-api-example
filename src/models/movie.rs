@@ -1,9 +1,12 @@
 use chrono::NaiveDate;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
+use diesel::prelude::{Insertable, Queryable, Selectable};
 
-#[derive(Deserialize)]
+#[derive(Insertable, Queryable, Selectable, Deserialize, Serialize)]
+#[diesel(table_name = crate::models::schema::movie)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Movie {
-    pub id: u32,
+    pub id: i32,
     pub title: String,
     pub release_date: NaiveDate
 }
