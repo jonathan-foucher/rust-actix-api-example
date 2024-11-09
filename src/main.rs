@@ -1,6 +1,7 @@
 mod routers;
 mod models;
 mod database;
+mod schema;
 use database::database_connection::create_db_pool;
 use diesel::{pg::PgConnection, r2d2::{ConnectionManager, Pool}};
 use std::{env, io::Result};
