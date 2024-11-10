@@ -4,7 +4,7 @@ use std::env;
 const MAX_POOL_SIZE: u32 = 2;
 
 pub fn create_db_pool() -> Pool<ConnectionManager<PgConnection>> {
-    println!("Connecting to the database");
+    log::info!("Connecting to the database");
     let database_url = env::var("DB_URL").expect("DB_URL must be set");
     let manager = ConnectionManager::<PgConnection>::new(database_url);
 

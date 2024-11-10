@@ -5,7 +5,7 @@ use crate::schema::movie::dsl::*;
 
 #[get("/movies")]
 async fn get_all_movies(db_pool: Data<Pool<ConnectionManager<PgConnection>>>) -> Result<impl Responder> {
-    println!("Get all movies");
+    log::info!("Get all movies");
 
     let movies: Vec<Movie> = web::block(move || {
         let mut db_conn = db_pool.get().expect("Could not get a database connection from the pool");
@@ -19,9 +19,7 @@ async fn get_all_movies(db_pool: Data<Pool<ConnectionManager<PgConnection>>>) ->
 
 #[post("/movies")]
 async fn save_movie(db_pool: Data<Pool<ConnectionManager<PgConnection>>>, body: Json<Movie>) -> Result<impl Responder> {
-   	println!("Post movie with id {}", body.id);
-	println!("Post movie with title {}", body.title);
-	println!("Post movie with release date {}", body.release_date);
+   	log::info!("Post movie id={}, title='{}' and relase_date={}", body.id, body.title, body.release_date);
 
     let result: Movie = web::block(move || {
         let mut db_conn = db_pool.get().expect("Could not get a database connection from the pool");
@@ -45,7 +43,7 @@ async fn save_movie(db_pool: Data<Pool<ConnectionManager<PgConnection>>>, body: 
 #[delete("/movies/{movieId}")]
 async fn delete_movie(db_pool: Data<Pool<ConnectionManager<PgConnection>>>, path: web::Path<i32>) -> Result<impl Responder> {
     let movie_id = path.into_inner();
-    println!("Delete movie with id {}", movie_id);
+    log::info!("Delete movie with id {}", movie_id);
 
     let result = web::block(move || {
         let mut db_conn = db_pool.get().expect("Could not get a database connection from the pool");
